@@ -17,6 +17,9 @@ class App extends React.Component {
         })
       })
   }
+  handleClick() {
+    console.log('click')
+  }
   render(){
     let players = this.state.players
     let playerOne = players[Math.floor(Math.random()*players.length)]
@@ -27,9 +30,10 @@ class App extends React.Component {
     }
     return (
       <div className="App">
+        <h1>Select the better player</h1>
         <ul>
-            <li><Player player={playerOne}/></li>
-            <li><Player player={playerTwo}/></li>
+            <li><Player player={playerOne} onSelection={this.handleClick}/></li>
+            <li><Player player={playerTwo} onSelection={this.handleClick}/></li>
        </ul>
       </div>
     );
