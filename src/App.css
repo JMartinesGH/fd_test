@@ -27,3 +27,7 @@
   padding: 5px;
   cursor: pointer;
 }
+
+.loading{
+  text-align: center;
+}

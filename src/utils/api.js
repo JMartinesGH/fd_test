@@ -9,3 +9,7 @@ export function fetchPlayers() {
             return data.players
         })
 }
+
+export function battle(playerOne, playerTwo) {
+    return true;
+}
