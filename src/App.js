@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { fetchPlayers } from './utils/api'
+import { fetchPlayers, battle } from './utils/api'
 import Player from './components/Player'
 
 class App extends React.Component {
@@ -9,6 +9,7 @@ class App extends React.Component {
     players: [],
     playerOne: null,
     playerTwo: null,
+    selected: null,
     count: 0
   }
   componentDidMount() {
@@ -25,43 +26,23 @@ class App extends React.Component {
   reset = () => {
     this.setState({
       playerOne: this.state.players[Math.floor(Math.random() * this.state.players.length)],
-      playerTwo: this.state.players[Math.floor(Math.random() * this.state.players.length)]
+      playerTwo: this.state.players[Math.floor(Math.random() * this.state.players.length)],
+      selected: null
     })
   }
-  handleClick = (playerInput) => {
+  handleClick = (playerInput, playerNumber) => {
     // console.log('click')
-    if(playerInput.fppg == this.state.playerOne.fppg){
-      console.log('playerOne selected')
-      if(playerInput.fppg > this.state.playerTwo.fppg){
-        this.setState({
-          count: this.state.count+1,
-          playerOne: this.state.players[Math.floor(Math.random() * this.state.players.length)],
-          playerTwo: this.state.players[Math.floor(Math.random() * this.state.players.length)]
-        })
-      }else{
-        this.setState({
-          playerOne: this.state.players[Math.floor(Math.random() * this.state.players.length)],
-          playerTwo: this.state.players[Math.floor(Math.random() * this.state.players.length)]
-        })
-      }
-    }else{
-      console.log('playerTwo selected')
-      if(playerInput.fppg > this.state.playerOne.fppg){
-        this.setState({
-          count: this.state.count+1,
-          playerOne: this.state.players[Math.floor(Math.random() * this.state.players.length)],
-          playerTwo: this.state.players[Math.floor(Math.random() * this.state.players.length)]
-        })
-      }else{
-        this.setState({
-          playerOne: this.state.players[Math.floor(Math.random() * this.state.players.length)],
-          playerTwo: this.state.players[Math.floor(Math.random() * this.state.players.length)]
-        })
-      }
-    }
-
+    console.log(playerNumber, ' selected')
     // battle
-    
+    let results = battle(this.state.playerOne, this.state.playerTwo)
+    // show
+    this.setState({selected: playerInput})
+    // set winner
+    if(results[0] === playerInput){
+      console.log('winner')
+    }else{
+      console.log('loser')
+    }
   }
   render() {
     let { playerOne, playerTwo, count } = this.state
@@ -74,10 +55,10 @@ class App extends React.Component {
         <h1>Select the better player</h1>
         <h3>Correct Count: {count}</h3>
         <ul>
-          <li><Player player={playerOne} onSelection={this.handleClick} playerNumber={'playerOne'}/></li>
-          <li><Player player={playerTwo} onSelection={this.handleClick} playerNumber={'playerTwo'}/></li>
+          <li><Player player={playerOne} onSelection={this.handleClick} playerNumber={'playerOne'} selectClass={this.state.selected === playerOne ? 'active' : null} /></li>
+          <li><Player player={playerTwo} onSelection={this.handleClick} playerNumber={'playerTwo'} selectClass={this.state.selected === playerTwo ? 'active' : null} /></li>
         </ul>
-        <button onClick={this.reset}>Reset</button>
+        <button onClick={this.reset}>Reset Players</button>
       </div>
     );
   }

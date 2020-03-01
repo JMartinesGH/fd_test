@@ -5,11 +5,12 @@ export function fetchPlayers() {
             if (!data.players) {
                 throw new Error(data.message)
             }
-
+ 
             return data.players
         })
 }
 
 export function battle(playerOne, playerTwo) {
-    return true;
+    let players = [playerOne, playerTwo]
+    return players.sort((a, b) => b.fppg - a.fppg)
 }

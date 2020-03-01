@@ -20,6 +20,10 @@
   border: 4px solid lightblue;
 }
 
+.player h2{
+  visibility: hidden;
+}
+
 .player button{
   background-color: lightblue;
   color: black;
@@ -30,4 +34,8 @@
 
 .loading{
   text-align: center;
+}
+
+.player.active h2{
+  visibility: visible;
 }
