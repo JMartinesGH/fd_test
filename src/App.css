@@ -39,3 +39,7 @@
 .player.active h2{
   visibility: visible;
 }
+
+.winner{
+  color: green;
+}

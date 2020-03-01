@@ -10,7 +10,8 @@ class App extends React.Component {
     playerOne: null,
     playerTwo: null,
     selected: null,
-    count: 0
+    count: 0,
+    status: false, 
   }
   componentDidMount() {
     fetchPlayers()
@@ -27,7 +28,8 @@ class App extends React.Component {
     this.setState({
       playerOne: this.state.players[Math.floor(Math.random() * this.state.players.length)],
       playerTwo: this.state.players[Math.floor(Math.random() * this.state.players.length)],
-      selected: null
+      selected: null,
+      status: false
     })
   }
   handleClick = (playerInput, playerNumber) => {
@@ -40,8 +42,17 @@ class App extends React.Component {
     // set winner
     if(results[0] === playerInput){
       console.log('winner')
+      // show as winner
+      // increment
+      this.setState({
+        status: true,
+        count: this.state.count+1
+      })
     }else{
       console.log('loser')
+      this.setState({
+        status: false
+      })
     }
   }
   render() {
@@ -58,7 +69,12 @@ class App extends React.Component {
           <li><Player player={playerOne} onSelection={this.handleClick} playerNumber={'playerOne'} selectClass={this.state.selected === playerOne ? 'active' : null} /></li>
           <li><Player player={playerTwo} onSelection={this.handleClick} playerNumber={'playerTwo'} selectClass={this.state.selected === playerTwo ? 'active' : null} /></li>
         </ul>
-        <button onClick={this.reset}>Reset Players</button>
+        {this.state.status ? (
+          <h1 className='winner'>Winner</h1>
+        ) : (
+          <h1 className='loser'>Loser</h1>
+        )}
+        <button onClick={this.reset}>Next Players</button>
       </div>
     );
   }
